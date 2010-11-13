@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="utf-8">
+        <title>Particles</title>
+        <style type="text/css">
+            html {
+                background: black;
+                text-align: center;
+            }
+            body {
+                width: 962px;
+                margin: 20px auto;
+                text-align: left;
+            }
+            #canvas {
+                border: 1px solid #333;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="canvas" width="960" height="594"></canvas>
+        <script type="text/javascript">
+            var Particle = function(ctx, x, y, xVel, yVel) {
+                this.ctx = ctx;
+                this.x = x;
+                this.y = y;
+                this.xVel = xVel || 0;
+                this.yVel = yVel * -1 || 0;
+                
+                return this;
+            };
+            
+            Particle.prototype = {
+                render: function() {
+                    var c = this.ctx,
+                        drag = 0.999999,
+                        gravity = 0.08,
+                        size = 2;
+                    
+                    c.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    c.beginPath();
+                    c.rect(this.x, this.y, size, size);
+                    c.closePath();
+                    c.fill();
+                    
+                    this.x += this.xVel;
+                    this.y += this.yVel;
+                    this.yVel += gravity;
+                    this.xVel *= drag;
+                    this.yVel *= drag;
+                }
+            };
+            
+            
+            var canvasController = function(){
+                var id = 'canvas',
+                    c = document.getElementById(id),
+                    ctx = c.getContext('2d'),
+                    cw = c.width,
+                    ch = c.height,
+                    refreshRate = 10,
+                    limit = 300,
+                    count = 0,
+                    particles = new Array(limit);
+                    
+                return o = {
+                    init: function() {
+                        return setInterval(o.refresh, refreshRate);
+                    },
+                    
+                    rand: function(max, min) {
+                        return Math.random() * (max - min) + min;
+                    },
+                    
+                    refresh: function() {
+                        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+                        ctx.fillRect(0, 0, cw, ch);
+                        // ctx.clearRect(0, 0, cw, ch);
+                        
+                        if (count > limit) {
+                            count = 0;
+                        }
+                        particles[count++] = new Particle(ctx, cw/2, ch/2, o.rand(2, -2), o.rand(7, 0));
+                        
+                        for (var i in particles) {
+                            var p = particles[i];
+                            
+                            p.render();
+                            
+                            if (p.y > c.ch) {
+                                delete particles[i];
+                            }
+                        }
+                    }
+                };
+            }();
+            
+            var inter = canvasController.init();
+        </script>
+    </body>
+</html>
