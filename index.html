@@ -21,12 +21,13 @@
     <body>
         <canvas id="canvas" width="960" height="594"></canvas>
         <script type="text/javascript">
-            var Particle = function(ctx, x, y, xVel, yVel) {
+            var Particle = function(ctx, x, y, xVel, yVel, col) {
                 this.ctx = ctx;
                 this.x = x;
                 this.y = y;
                 this.xVel = xVel || 0;
                 this.yVel = yVel * -1 || 0;
+                this.col = col || "rgba(255, 255, 255, 0.5)";
                 
                 return this;
             };
@@ -38,7 +39,7 @@
                         gravity = 0.08,
                         size = 2;
                     
-                    c.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    c.fillStyle = this.col;
                     c.beginPath();
                     c.rect(this.x, this.y, size, size);
                     c.closePath();
@@ -81,7 +82,22 @@
                         if (count > limit) {
                             count = 0;
                         }
-                        particles[count++] = new Particle(ctx, cw/2, ch/2, o.rand(2, -2), o.rand(7, 0));
+                        particles[count++] = new Particle(
+                            ctx,
+                            cw/2,
+                            ch/2,
+                            o.rand(2, -2),
+                            o.rand(7, 0),
+                            [
+                                "rgba(",
+                                Math.floor(o.rand(255, 125)),
+                                ", ",
+                                Math.floor(o.rand(255, 125)),
+                                ", ",
+                                Math.floor(o.rand(255, 125)),
+                                ", 0.5)"
+                            ].join('')
+                        );
                         
                         for (var i in particles) {
                             var p = particles[i];
