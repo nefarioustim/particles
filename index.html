@@ -7,6 +7,7 @@
     </head>
     <body>
         <canvas id="canvas" width="960" height="594"></canvas>
+        <script type="text/javascript" src="a/j/random.js"></script>
         <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
             var canvasController = function(){
@@ -32,10 +33,6 @@
                         return setInterval(o.refresh, refreshRate);
                     },
                     
-                    rand: function(max, min) {
-                        return Math.random() * (max - min) + min;
-                    },
-                    
                     updateMouseCoords: function(e) {
                         if (e.pageX > cminw && e.pageX < cmaxw) {
                             mousex = e.pageX - cminw;
@@ -49,27 +46,24 @@
                     refresh: function() {
                         ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
                         ctx.fillRect(0, 0, cw, ch);
-                        // ctx.clearRect(0, 0, cw, ch);
                         
                         if (count > limit) {
                             count = 0;
                         }
-                        console.log(mousex + ', ' + mousey);
+                        
                         particles[count++] = new Particle(
                             c,
-                            // cw/2,
-                            // ch/2,
                             mousex,
                             mousey,
-                            o.rand(3, -3),
-                            o.rand(3, 2),
+                            NEF.random.getRandomArbitrary(3, -3),
+                            NEF.random.getRandomArbitrary(3, 2),
                             [
                                 "rgba(",
-                                Math.floor(o.rand(255, 125)),
+                                NEF.random.getRandomInt(255, 125),
                                 ", ",
-                                Math.floor(o.rand(255, 125)),
+                                NEF.random.getRandomInt(255, 125),
                                 ", ",
-                                Math.floor(o.rand(255, 125)),
+                                NEF.random.getRandomInt(255, 125),
                                 ", 0.75)"
                             ].join('')
                         );

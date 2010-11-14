@@ -1,5 +1,5 @@
 var Particle = function(c, x, y, xVel, yVel, col) {
-    this.c = c;
+    this.c = canvas;
     this.ctx = this.c.getContext('2d');
     this.x = x;
     this.y = y;
