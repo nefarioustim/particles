@@ -13,34 +13,21 @@
         <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
             var canvas = new CanvasDirector('canvas'),
-                limit = 500,
-                count = 0,
-                particles = new Array(limit);
+                cluster1 = new ParticleCluster(canvas.el, canvas.width/3, canvas.height/2),
+                cluster2 = new ParticleCluster(canvas.el, (canvas.width/3)*2, canvas.height/2),
+                cluster3 = new ParticleCluster(canvas.el, canvas.width/2, canvas.height/3),
+                cluster4 = new ParticleCluster(canvas.el, canvas.width/2, (canvas.height/3)*2);
             
+            // Lower the alpha number here for longer trails.
             canvas.setFill(
-                NEF.tools.rgbaString(0, 0, 0, 0.10)
+                NEF.tools.rgbaString(0, 0, 0, 0.5)
             );
             
             canvas.run(function frame(){
-                count = count > limit ? 0 : count;
-                
-                particles[count++] = new Particle(
-                    canvas.el,
-                    canvas.width / 2,
-                    canvas.height / 2,
-                    NEF.random.getRandomArbitrary(3, -3),
-                    NEF.random.getRandomArbitrary(4, 2),
-                    NEF.tools.rgbaString(
-                        NEF.random.getRandomInt(255, 125),
-                        NEF.random.getRandomInt(255, 125),
-                        NEF.random.getRandomInt(255, 125),
-                        0.75
-                    )
-                );
-                
-                for (var i in particles) {
-                    particles[i].render();
-                }
+                cluster1.render();
+                cluster2.render();
+                cluster3.render();
+                cluster4.render();
             });
         </script>
     </body>
