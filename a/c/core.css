@@ -1,0 +1,12 @@
+html {
+    background: black;
+    text-align: center;
+}
+body {
+    width: 962px;
+    margin: 20px auto;
+    text-align: left;
+}
+#canvas {
+    border: 1px solid #333;
+}
