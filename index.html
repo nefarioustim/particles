@@ -33,27 +33,14 @@
                     ch = c.height,
                     cminh = c.offsetTop,
                     cmaxh = cminh + ch,
-                    mousex,
-                    mousey,
                     refreshRate = 10,
-                    limit = 500,
+                    limit = 400,
                     count = 0,
                     particles = new Array(limit);
                     
                 return o = {
                     init: function() {
-                        document.body.onmousemove = o.updateMouseCoords;
                         return setInterval(o.refresh, refreshRate);
-                    },
-                    
-                    updateMouseCoords: function(e) {
-                        if (e.pageX > cminw && e.pageX < cmaxw) {
-                            mousex = e.pageX - cminw;
-                        }
-                        
-                        if (e.pageY > cminh && e.pageY < cmaxh) {
-                            mousey = e.pageY - cminh;
-                        }
                     },
                     
                     refresh: function() {
@@ -66,8 +53,8 @@
                         
                         particles[count++] = new Particle(
                             c, // Canvas element
-                            mousex, // Particle X
-                            mousey, // Particle Y
+                            cw/2, // Particle X
+                            ch/2, // Particle Y
                             NEF.random.getRandomArbitrary(3, -3), // Particle X Velocity
                             NEF.random.getRandomArbitrary(3, 2), // Particle Y Velocity
                             rgbaString(
