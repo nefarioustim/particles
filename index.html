@@ -59,7 +59,13 @@
                     c = document.getElementById(id),
                     ctx = c.getContext('2d'),
                     cw = c.width,
+                    cminw = c.offsetLeft,
+                    cmaxw = cminw + cw,
                     ch = c.height,
+                    cminh = c.offsetTop,
+                    cmaxh = cminh + ch,
+                    mousex,
+                    mousey,
                     refreshRate = 10,
                     limit = 300,
                     count = 0,
@@ -67,11 +73,22 @@
                     
                 return o = {
                     init: function() {
+                        document.body.onmousemove = o.updateMouseCoords;
                         return setInterval(o.refresh, refreshRate);
                     },
                     
                     rand: function(max, min) {
                         return Math.random() * (max - min) + min;
+                    },
+                    
+                    updateMouseCoords: function(e) {
+                        if (e.pageX > cminw && e.pageX < cmaxw) {
+                            mousex = e.pageX - cminw;
+                        }
+                        
+                        if (e.pageY > cminh && e.pageY < cmaxh) {
+                            mousey = e.pageY - cminh;
+                        }
                     },
                     
                     refresh: function() {
@@ -82,10 +99,13 @@
                         if (count > limit) {
                             count = 0;
                         }
+                        console.log(mousex + ', ' + mousey);
                         particles[count++] = new Particle(
                             ctx,
-                            cw/2,
-                            ch/2,
+                            // cw/2,
+                            // ch/2,
+                            mousex,
+                            mousey,
                             o.rand(2, -2),
                             o.rand(7, 0),
                             [
@@ -95,7 +115,7 @@
                                 Math.floor(o.rand(255, 125)),
                                 ", ",
                                 Math.floor(o.rand(255, 125)),
-                                ", 0.5)"
+                                ", 0.75)"
                             ].join('')
                         );
                         
