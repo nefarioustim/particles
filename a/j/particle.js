@@ -40,3 +40,7 @@ Particle.prototype = {
         }
     }
 };
+
+var ParticleCluster = function() {
+	return this;
+};

@@ -10,7 +10,20 @@
         <script type="text/javascript" src="a/j/random.js"></script>
         <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
-            var canvasController = function(){
+            var rgbaString = function(r, g, b, a) {
+                    return [
+                        "rgba(",
+                        parseInt(r, 10),
+                        ", ",
+                        parseInt(g, 10),
+                        ", ",
+                        parseInt(b, 10),
+                        ", ",
+                        parseFloat(a),
+                        ")"
+                    ].join('');
+                },
+                canvasController = function(){
                 var id = 'canvas',
                     c = document.getElementById(id),
                     ctx = c.getContext('2d'),
@@ -52,20 +65,17 @@
                         }
                         
                         particles[count++] = new Particle(
-                            c,
-                            mousex,
-                            mousey,
-                            NEF.random.getRandomArbitrary(3, -3),
-                            NEF.random.getRandomArbitrary(3, 2),
-                            [
-                                "rgba(",
+                            c, // Canvas element
+                            mousex, // Particle X
+                            mousey, // Particle Y
+                            NEF.random.getRandomArbitrary(3, -3), // Particle X Velocity
+                            NEF.random.getRandomArbitrary(3, 2), // Particle Y Velocity
+                            rgbaString(
                                 NEF.random.getRandomInt(255, 125),
-                                ", ",
                                 NEF.random.getRandomInt(255, 125),
-                                ", ",
                                 NEF.random.getRandomInt(255, 125),
-                                ", 0.75)"
-                            ].join('')
+                                0.75
+                            ) // Particle colour
                         );
                         
                         for (var i in particles) {
