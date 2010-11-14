@@ -21,8 +21,9 @@
     <body>
         <canvas id="canvas" width="960" height="594"></canvas>
         <script type="text/javascript">
-            var Particle = function(ctx, x, y, xVel, yVel, col) {
-                this.ctx = ctx;
+            var Particle = function(c, x, y, xVel, yVel, col) {
+                this.c = canvas;
+                this.ctx = this.c.getContext('2d');
                 this.x = x;
                 this.y = y;
                 this.xVel = xVel || 0;
@@ -34,22 +35,32 @@
             
             Particle.prototype = {
                 render: function() {
-                    var c = this.ctx,
+                    var c = this.c,
+                        ctx = this.ctx,
                         drag = 0.999999,
                         gravity = 0.08,
+                        bounceFriction = 0.6,
                         size = 2;
                     
-                    c.fillStyle = this.col;
-                    c.beginPath();
-                    c.rect(this.x, this.y, size, size);
-                    c.closePath();
-                    c.fill();
+                    ctx.fillStyle = this.col;
+                    ctx.beginPath();
+                    ctx.rect(this.x, this.y, size, size);
+                    ctx.closePath();
+                    ctx.fill();
                     
                     this.x += this.xVel;
                     this.y += this.yVel;
                     this.yVel += gravity;
                     this.xVel *= drag;
                     this.yVel *= drag;
+                    
+                    if (this.x > c.width || this.x < 0) {
+                        this.xVel *= -bounceFriction;
+                    }
+                    
+                    if (this.y > c.height || this.y < 0) {
+                        this.yVel *= -bounceFriction;
+                    }
                 }
             };
             
@@ -67,7 +78,7 @@
                     mousex,
                     mousey,
                     refreshRate = 10,
-                    limit = 300,
+                    limit = 500,
                     count = 0,
                     particles = new Array(limit);
                     
@@ -101,13 +112,13 @@
                         }
                         console.log(mousex + ', ' + mousey);
                         particles[count++] = new Particle(
-                            ctx,
+                            c,
                             // cw/2,
                             // ch/2,
                             mousex,
                             mousey,
-                            o.rand(2, -2),
-                            o.rand(7, 0),
+                            o.rand(3, -3),
+                            o.rand(3, 2),
                             [
                                 "rgba(",
                                 Math.floor(o.rand(255, 125)),
