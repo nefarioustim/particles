@@ -12,52 +12,35 @@
         <script type="text/javascript" src="a/j/canvasdirector.js"></script>
         <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
-            var canvas = new CanvasDirector('canvas');
+            var canvas = new CanvasDirector('canvas'),
+                limit = 500,
+                count = 0,
+                particles = new Array(limit);
             
             canvas.setFill(
-                NEF.tools.rgbaString(0, 0, 0, 0.15)
+                NEF.tools.rgbaString(0, 0, 0, 0.10)
             );
             
-            var particle;
-            
-            canvas.run(function(){
-                particle = new Particle(
-                    canvas.canvas,
+            canvas.run(function frame(){
+                count = count > limit ? 0 : count;
+                
+                particles[count++] = new Particle(
+                    canvas.el,
                     canvas.width / 2,
                     canvas.height / 2,
-                    2,
-                    2
+                    NEF.random.getRandomArbitrary(3, -3),
+                    NEF.random.getRandomArbitrary(4, 2),
+                    NEF.tools.rgbaString(
+                        NEF.random.getRandomInt(255, 125),
+                        NEF.random.getRandomInt(255, 125),
+                        NEF.random.getRandomInt(255, 125),
+                        0.75
+                    )
                 );
-            }, function(){
-                particle.render();
-
-                // if (count > limit) {
-                //     count = 0;
-                // }
-                // 
-                // particles[count++] = new Particle(
-                //     canvas.canvas,
-                //     canvas.width / 2,
-                //     canvas.height / 2,
-                //     NEF.random.getRandomArbitrary(3, -3),
-                //     NEF.random.getRandomArbitrary(3, 2),
-                //     NEF.tools.rgbaString(
-                //         NEF.random.getRandomInt(255, 125),
-                //         NEF.random.getRandomInt(255, 125),
-                //         NEF.random.getRandomInt(255, 125),
-                //         0.75
-                //     )
-                // );
-                // 
-                // for (var i in particles) {
-                //     var p = particles[i];
-                // 
-                //     p.render();
-                // 
-                //     if (p.y > canvas.height) {
-                //         delete particles[i];
-                //     }
-                // }
+                
+                for (var i in particles) {
+                    particles[i].render();
+                }
             });
         </script>
     </body>

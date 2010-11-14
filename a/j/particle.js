@@ -30,7 +30,7 @@ Particle.prototype = {
         this.yVel += gravity;
         this.xVel *= drag;
         this.yVel *= drag;
-        
+		
         if (this.x > c.width || this.x < 0) {
             this.xVel *= -bounceFriction;
         }

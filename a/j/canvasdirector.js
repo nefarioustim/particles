@@ -3,8 +3,8 @@ var CanvasDirector = function(id, refreshRate) {
 		
 		if (canvas && canvas.tagName.toUpperCase() === 'CANVAS') {
 			this.id = id;
-			this.canvas = canvas;
-			this.context = this.canvas.getContext('2d');
+			this.el = canvas;
+			this.context = canvas.getContext('2d');
 			this.width = canvas.width;
 			this.height = canvas.height;
 			this.left = canvas.offsetLeft;
@@ -30,8 +30,10 @@ CanvasDirector.prototype = {
 		this.context.fillRect(0, 0, this.width, this.height);
 	},
 	
-	run: function(initCallback, frameCallback) {
-		initCallback();
+	run: function(frameCallback, initCallback) {
+		if (initCallback) {
+			initCallback();
+		}
 		
 		return setInterval(function(context, callback){
 			context.clear();
