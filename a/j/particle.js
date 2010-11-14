@@ -17,7 +17,7 @@ Particle.prototype = {
             drag = 0.999999,
             gravity = 0.08,
             bounceFriction = 0.6,
-            size = 2;
+            size = 3;
         
         ctx.fillStyle = this.col;
         ctx.beginPath();
