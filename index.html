@@ -7,78 +7,58 @@
     </head>
     <body>
         <canvas id="canvas" width="960" height="594"></canvas>
+        <script type="text/javascript" src="a/j/tools.js"></script>
         <script type="text/javascript" src="a/j/random.js"></script>
+        <script type="text/javascript" src="a/j/canvasdirector.js"></script>
         <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
-            var rgbaString = function(r, g, b, a) {
-                    return [
-                        "rgba(",
-                        parseInt(r, 10),
-                        ", ",
-                        parseInt(g, 10),
-                        ", ",
-                        parseInt(b, 10),
-                        ", ",
-                        parseFloat(a),
-                        ")"
-                    ].join('');
-                },
-                canvasController = function(){
-                var id = 'canvas',
-                    c = document.getElementById(id),
-                    ctx = c.getContext('2d'),
-                    cw = c.width,
-                    cminw = c.offsetLeft,
-                    cmaxw = cminw + cw,
-                    ch = c.height,
-                    cminh = c.offsetTop,
-                    cmaxh = cminh + ch,
-                    refreshRate = 10,
-                    limit = 400,
-                    count = 0,
-                    particles = new Array(limit);
-                    
-                return o = {
-                    init: function() {
-                        return setInterval(o.refresh, refreshRate);
-                    },
-                    
-                    refresh: function() {
-                        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
-                        ctx.fillRect(0, 0, cw, ch);
-                        
-                        if (count > limit) {
-                            count = 0;
-                        }
-                        
-                        particles[count++] = new Particle(
-                            c, // Canvas element
-                            cw/2, // Particle X
-                            ch/2, // Particle Y
-                            NEF.random.getRandomArbitrary(3, -3), // Particle X Velocity
-                            NEF.random.getRandomArbitrary(3, 2), // Particle Y Velocity
-                            rgbaString(
-                                NEF.random.getRandomInt(255, 125),
-                                NEF.random.getRandomInt(255, 125),
-                                NEF.random.getRandomInt(255, 125),
-                                0.75
-                            ) // Particle colour
-                        );
-                        
-                        for (var i in particles) {
-                            var p = particles[i];
-                            
-                            p.render();
-                            
-                            if (p.y > c.ch) {
-                                delete particles[i];
-                            }
-                        }
-                    }
-                };
-            }();
+            var canvas = new CanvasDirector('canvas');
             
-            var inter = canvasController.init();
+            canvas.setFill(
+                NEF.tools.rgbaString(0, 0, 0, 0.15)
+            );
+            
+            var particle;
+            
+            canvas.run(function(){
+                particle = new Particle(
+                    canvas.canvas,
+                    canvas.width / 2,
+                    canvas.height / 2,
+                    2,
+                    2
+                );
+            }, function(){
+                particle.render();
+
+                // if (count > limit) {
+                //     count = 0;
+                // }
+                // 
+                // particles[count++] = new Particle(
+                //     canvas.canvas,
+                //     canvas.width / 2,
+                //     canvas.height / 2,
+                //     NEF.random.getRandomArbitrary(3, -3),
+                //     NEF.random.getRandomArbitrary(3, 2),
+                //     NEF.tools.rgbaString(
+                //         NEF.random.getRandomInt(255, 125),
+                //         NEF.random.getRandomInt(255, 125),
+                //         NEF.random.getRandomInt(255, 125),
+                //         0.75
+                //     )
+                // );
+                // 
+                // for (var i in particles) {
+                //     var p = particles[i];
+                // 
+                //     p.render();
+                // 
+                //     if (p.y > canvas.height) {
+                //         delete particles[i];
+                //     }
+                // }
+            });
         </script>
     </body>
 </html>
