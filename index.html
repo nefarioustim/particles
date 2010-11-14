@@ -3,68 +3,12 @@
     <head>
         <meta charset="utf-8">
         <title>Particles</title>
-        <style type="text/css">
-            html {
-                background: black;
-                text-align: center;
-            }
-            body {
-                width: 962px;
-                margin: 20px auto;
-                text-align: left;
-            }
-            #canvas {
-                border: 1px solid #333;
-            }
-        </style>
+        <link rel="stylesheet" href="a/c/core.css" type="text/css">
     </head>
     <body>
         <canvas id="canvas" width="960" height="594"></canvas>
+        <script type="text/javascript" src="a/j/particle.js"></script>
         <script type="text/javascript">
-            var Particle = function(c, x, y, xVel, yVel, col) {
-                this.c = canvas;
-                this.ctx = this.c.getContext('2d');
-                this.x = x;
-                this.y = y;
-                this.xVel = xVel || 0;
-                this.yVel = yVel * -1 || 0;
-                this.col = col || "rgba(255, 255, 255, 0.5)";
-                
-                return this;
-            };
-            
-            Particle.prototype = {
-                render: function() {
-                    var c = this.c,
-                        ctx = this.ctx,
-                        drag = 0.999999,
-                        gravity = 0.08,
-                        bounceFriction = 0.6,
-                        size = 2;
-                    
-                    ctx.fillStyle = this.col;
-                    ctx.beginPath();
-                    ctx.rect(this.x, this.y, size, size);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    this.x += this.xVel;
-                    this.y += this.yVel;
-                    this.yVel += gravity;
-                    this.xVel *= drag;
-                    this.yVel *= drag;
-                    
-                    if (this.x > c.width || this.x < 0) {
-                        this.xVel *= -bounceFriction;
-                    }
-                    
-                    if (this.y > c.height || this.y < 0) {
-                        this.yVel *= -bounceFriction;
-                    }
-                }
-            };
-            
-            
             var canvasController = function(){
                 var id = 'canvas',
                     c = document.getElementById(id),
