@@ -7,8 +7,8 @@ repo that I suspect I'll be playing with for a few days.
 Current demo incorporates:
 
  *  Colour 2D particles
- *  Customisable velocities, drag, gravity, bounce, and particle size.
- *  Particle clusters
+ *  Particle clusters with customisable velocities, drag, gravity, bounce,
+    and particle size.
  *  Canvas director
 
 Demo is running at <http://nefariousdesigns.co.uk/projects/particles/>
@@ -16,7 +16,6 @@ Demo is running at <http://nefariousdesigns.co.uk/projects/particles/>
 To do
 -----
 
- *  Refactor away environmental stuff from Particle
  *  Reintroduce mouse tracking(?)
  *  Create 3D particles and particle clusters
  
