@@ -17,10 +17,10 @@
                 halfy = canvas.height/2,
                 thirdx = canvas.width/3,
                 thirdy = canvas.height/3,
-                cluster1 = new ParticleCluster(canvas.el, thirdx, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75)),
-                cluster2 = new ParticleCluster(canvas.el, thirdx*2, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75)),
-                cluster3 = new ParticleCluster(canvas.el, halfx, thirdy, 5, NEF.tools.rgbaString(255, 51, 51, 0.75)),
-                cluster4 = new ParticleCluster(canvas.el, halfx, thirdy*2, 3, NEF.tools.rgbaString(255, 102, 255, 0.75));
+                cluster1 = new ParticleCluster(canvas.el, 400, thirdx, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75), [-4, -1]),
+                cluster2 = new ParticleCluster(canvas.el, 400, thirdx*2, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75), [4, 1]),
+                cluster3 = new ParticleCluster(canvas.el, 400, halfx, thirdy, 5, NEF.tools.rgbaString(255, 51, 255, 0.75), [2, -2], [4, 0]),
+                cluster4 = new ParticleCluster(canvas.el, 1000, halfx, thirdy*2, 5, NEF.tools.rgbaString(127, 127, 127, 0.25), [0.15, -0.15], [0, 0], -0.01, 0.2);
             
             // Lower the alpha number here for longer trails.
             canvas.setFill(

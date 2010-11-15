@@ -12,12 +12,19 @@ var Particle = function(c, x, y, size, col, xVel, yVel) {
 };
 
 Particle.prototype = {
-    render: function() {
+    render: function(mode) {
+		if (mode) {
+			var old = this.ctx.globalCompositeOperation;
+			this.ctx.globalCompositeOperation = mode;
+		}
         this.ctx.fillStyle = this.col;
         this.ctx.beginPath();
         this.ctx.rect(this.x, this.y, this.size, this.size);
         this.ctx.closePath();
         this.ctx.fill();
+		if (mode && old) {
+			this.ctx.globalCompositeOperation = old;
+		}
     },
 	
 	translate: function(xVel, yVel) {
@@ -28,17 +35,19 @@ Particle.prototype = {
 	}
 };
 
-var ParticleCluster = function(canvas, x, y, size, col) {
+var ParticleCluster = function(canvas, limit, x, y, size, col, xVel, yVel, gravity, bounce, drag) {
 	this.canvas = canvas;
 	this.context = canvas.getContext('2d');
+	this.limit = limit || 500;
 	this.originX = x;
 	this.originY = y;
 	this.colour = col || NEF.tools.rgbaString(255, 255, 255, 1);
+	this.xVel = xVel || [2, -2];
+	this.yVel = yVel || [2, -2];
 	this.particleSize = size || 1;
-	this.gravity = 0.08;
-	this.drag = 0.999999;
-	this.bounceDecay = 0.6;
-	this.limit = 400;
+	this.gravity = gravity || 0.08;
+	this.drag = drag || 0.999999;
+	this.bounceDecay = bounce || 0.6;
 	this.count = 0;
 	this.particles = new Array(this.limit);
 	
@@ -46,7 +55,7 @@ var ParticleCluster = function(canvas, x, y, size, col) {
 };
 
 ParticleCluster.prototype = {
-	render: function() {
+	render: function(mode) {
 		this.count = this.count > this.limit ? 0 : this.count;
 		
 		this.particles[this.count++] = new Particle(
@@ -55,12 +64,12 @@ ParticleCluster.prototype = {
             this.originY,
             this.particleSize,
             this.colour,
-			NEF.random.getRandomArbitrary(-3, 3),
-			NEF.random.getRandomArbitrary(4, 0)
+			NEF.random.getRandomArbitrary(this.xVel[0], this.xVel[1]),
+			NEF.random.getRandomArbitrary(this.yVel[0], this.yVel[1])
         );
         
         for (var i in this.particles) {
-            this.particles[i].render();
+            this.particles[i].render(mode);
 			
 			var yVel = (this.particles[i].yVel + this.gravity) * this.drag,
 				xVel = this.particles[i].xVel * this.drag,
