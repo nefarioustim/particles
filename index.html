@@ -17,21 +17,31 @@
                 halfy = canvas.height/2,
                 thirdx = canvas.width/3,
                 thirdy = canvas.height/3,
-                cluster1 = new ParticleCluster(canvas.el, 400, thirdx, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75), [-4, -1]),
-                cluster2 = new ParticleCluster(canvas.el, 400, thirdx*2, thirdx, 1, NEF.tools.rgbaString(255, 255, 51, 0.75), [4, 1]),
-                cluster3 = new ParticleCluster(canvas.el, 400, halfx, thirdy, 5, NEF.tools.rgbaString(255, 51, 255, 0.75), [2, -2], [4, 0]),
-                cluster4 = new ParticleCluster(canvas.el, 1000, halfx, thirdy*2, 5, NEF.tools.rgbaString(127, 127, 127, 0.25), [0.15, -0.15], [0, 0], -0.01, 0.2);
+                cluster = [];
+                
+                cluster.push(new ParticleCluster(canvas.el, 400, thirdx, thirdx, 2, 0.4, NEF.tools.rgbaString(255, 255, 51, 0.75), [-4, -1]));
+                cluster.push(new ParticleCluster(canvas.el, 400, thirdx*2, thirdx, 2, 0.4, NEF.tools.rgbaString(255, 255, 51, 0.75), [4, 1]));
+                //cluster.push(new ParticleCluster(canvas.el, 400, halfx, halfy, 2, 1, NEF.tools.rgbaString(255, 51, 255, 0.75), [4, -4], [4, -4], 0, 1));
+                //cluster.push(new ParticleCluster(canvas.el, 1000, halfx, thirdy*2, 3, 0.8, NEF.tools.rgbaString(127, 127, 127, 0.10), [0.08, -0.08], [0, 0], -0.005));
             
             // Lower the alpha number here for longer trails.
             canvas.setFill(
-                NEF.tools.rgbaString(0, 0, 0, 0.2)
+                NEF.tools.rgbaString(0, 0, 0, 0.9)
             );
             
+            // document.body.onmousemove = function(e) {
+            //     if (e.pageX > canvas.left && e.pageX < canvas.right) {
+            //         cluster[0].originX = e.pageX - canvas.el.offsetLeft;
+            //     }
+            //     if (e.pageY > canvas.top && e.pageY < canvas.bottom) {
+            //         cluster[0].originY = e.pageY - canvas.el.offsetTop;
+            //     }
+            // };
+            
             canvas.run(function frame(){
-                cluster1.render();
-                cluster2.render();
-                cluster3.render();
-                cluster4.render();
+                for (var i in cluster) {
+                    cluster[i].render();
+                }
             });
         </script>
     </body>

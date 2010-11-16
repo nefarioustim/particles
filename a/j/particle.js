@@ -1,9 +1,10 @@
-var Particle = function(c, x, y, size, col, xVel, yVel) {
+var Particle = function(c, x, y, size, weight, col, xVel, yVel) {
     this.c = c;
     this.ctx = this.c.getContext('2d');
     this.x = x;
     this.y = y;
     this.size = size;
+	this.weight = (weight < 1) ? weight - NEF.random.getRandomArbitrary(-0.1, 0.1) : 1;
     this.col = col || "rgba(255, 255, 255, 0.5)";
     this.xVel = xVel;
     this.yVel = yVel * -1;
@@ -19,7 +20,7 @@ Particle.prototype = {
         }
         this.ctx.fillStyle = this.col;
         this.ctx.beginPath();
-        this.ctx.rect(this.x, this.y, this.size, this.size);
+		this.ctx.arc(this.x,this.y,this.size,0,Math.PI*2,true);
         this.ctx.closePath();
         this.ctx.fill();
         if (mode && old) {
@@ -30,24 +31,37 @@ Particle.prototype = {
     translate: function(xVel, yVel) {
         this.xVel = xVel;
         this.yVel = yVel;
+
+		if (this.weight < 1) {
+			var bounceDecay = 1 - this.weight;
+			
+            if (this.x > this.c.width || this.x < 0) {
+                this.xVel *= -bounceDecay;
+            }
+
+            if (this.y > this.c.height || this.y < 0) {
+                this.yVel *= -bounceDecay;
+            }
+		}
+
         this.x += this.xVel;
         this.y += this.yVel;
     }
 };
 
-var ParticleCluster = function(canvas, limit, x, y, size, col, xVel, yVel, gravity, bounce, drag) {
+var ParticleCluster = function(canvas, limit, x, y, size, weight, col, xVel, yVel, gravity, drag) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d');
     this.limit = limit || 500;
     this.originX = x;
     this.originY = y;
+	this.weight = weight;
     this.colour = col || NEF.tools.rgbaString(255, 255, 255, 1);
     this.xVel = xVel || [2, -2];
     this.yVel = yVel || [2, -2];
     this.particleSize = size || 1;
-    this.gravity = gravity || 0.08;
-    this.drag = drag || 0.999999;
-    this.bounceDecay = bounce || 0.6;
+    this.gravity = (gravity !== undefined) ? gravity : 0.08;
+    this.drag = (drag !== undefined) ? drag : 0.999999;
     this.count = 0;
     this.particles = new Array(this.limit);
     
@@ -63,6 +77,7 @@ ParticleCluster.prototype = {
             this.originX,
             this.originY,
             this.particleSize,
+			this.weight,
             this.colour,
             NEF.random.getRandomArbitrary(this.xVel[0], this.xVel[1]),
             NEF.random.getRandomArbitrary(this.yVel[0], this.yVel[1])
@@ -72,17 +87,7 @@ ParticleCluster.prototype = {
             this.particles[i].render(mode);
             
             var yVel = (this.particles[i].yVel + this.gravity) * this.drag,
-                xVel = this.particles[i].xVel * this.drag,
-                x = this.particles[i].x,
-                y = this.particles[i].y;
-
-            if (x > this.canvas.width || x < 0) {
-                xVel *= -this.bounceDecay;
-            }
-
-            if (y > this.canvas.height || y < 0) {
-                yVel *= -this.bounceDecay;
-            }
+                xVel = this.particles[i].xVel * this.drag;
             
             this.particles[i].translate(xVel, yVel);
         }
