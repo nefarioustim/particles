@@ -39,7 +39,7 @@
             
             // Lower the alpha number here for longer trails.
             canvas.setFill(
-                NEF.tools.rgbaString(0, 0, 0, 1)
+                NEF.tools.rgbaString(0, 0, 0, 0.3)
             );
             
             for (var i = 0; i < 500; i++) {
@@ -55,7 +55,7 @@
             }
             
             document.addEventListener('mousedown', function(){
-                rotateAmount = 0.5;
+                rotateAmount = rotateAmount ? 0 : 0.8;
             }, false);
             
             canvas.run(function frame(){

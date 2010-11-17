@@ -7,6 +7,7 @@
     </head>
     <body>
         <h1>Shape</h1>
+        <p>Use keys x, y, and z to spin on those axis.</p>
         <canvas id="canvas" width="960" height="594"></canvas>
         <ul>
             <li><a href="index.html">Basic particle clusters</a></li>
@@ -23,7 +24,9 @@
             var canvas = new CanvasDirector('canvas'),
                 halfx = canvas.width/2,
                 halfy = canvas.height/2,
-                rotateAmount = 0,
+                rotateAmountX = 0,
+                rotateAmountY = 0,
+                rotateAmountZ = 0,
                 cluster = [],
                 drawLine = function(p1, p2) {
                     var c = canvas.context;
@@ -63,8 +66,16 @@
             cluster.push(new Particle3D(canvas.el, 100, 100, -100, 2));
             cluster.push(new Particle3D(canvas.el, 100, 100, 100, 2));
             
-            document.addEventListener('mousedown', function(){
-                rotateAmount = 0.5;
+            document.addEventListener('keypress', function(e){
+                if (e.charCode === 120) {
+                    rotateAmountX = rotateAmountX ? 0 : 1;
+                }
+                if (e.charCode === 121) {
+                    rotateAmountY = rotateAmountY ? 0 : 1;
+                }
+                if (e.charCode === 122) {
+                    rotateAmountZ = rotateAmountZ ? 0 : 1;
+                }
             }, false);
             
             canvas.run(function frame(){
@@ -84,9 +95,9 @@
                 drawLine(cluster[6], cluster[7]);
                 
                 for (i in cluster) {
-                    cluster[i].rotate('X', rotateAmount);
-                    //cluster[i].rotate('Y', rotateAmount);
-                    cluster[i].rotate('Z', rotateAmount);
+                    cluster[i].rotate('X', rotateAmountX);
+                    cluster[i].rotate('Y', rotateAmountY);
+                    cluster[i].rotate('Z', rotateAmountZ);
                     cluster[i].render();
                 }
             });
