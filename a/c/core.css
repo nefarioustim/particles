@@ -3,9 +3,28 @@ html {
     text-align: center;
 }
 body {
+	color: #fff;
+	font-family: "helvetica neue", arial, sans-serif;
     width: 962px;
-    margin: 20px auto;
+    margin: 0 auto;
     text-align: left;
+}
+h1 {
+	margin: 10px 0;
+	font-size: 24px;
+}
+ul,
+ul li {
+	display: inline-block;
+	margin: 0;
+	padding: 5px 10px;
+	list-style-type: none;
+}
+ul li:first-child {
+	padding-left: 0;
+}
+a {
+	color: #36f;
 }
 #canvas {
     border: 1px solid #333;

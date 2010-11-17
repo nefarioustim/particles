@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="a/c/core.css" type="text/css">
     </head>
     <body>
-        <h1>Basic particle clusters</h1>
+        <h1>Gaseous particles</h1>
         <canvas id="canvas" width="960" height="594"></canvas>
         <ul>
             <li><a href="index.html">Basic particle clusters</a></li>
@@ -23,14 +23,9 @@
             var canvas = new CanvasDirector('canvas'),
                 halfx = canvas.width/2,
                 halfy = canvas.height/2,
-                thirdx = canvas.width/3,
-                thirdy = canvas.height/3,
                 cluster = [];
                 
-                cluster.push(new ParticleCluster(canvas.el, 300, thirdx, thirdx, 2, 0.4, NEF.tools.rgbaString(255, 255, 51, 0.75), [-4, -1]));
-                cluster.push(new ParticleCluster(canvas.el, 300, thirdx*2, thirdx, 2, 0.4, NEF.tools.rgbaString(255, 255, 51, 0.75), [4, 1]));
-                //cluster.push(new ParticleCluster(canvas.el, 400, halfx, halfy, 2, 1, NEF.tools.rgbaString(255, 51, 255, 0.75), [4, -4], [4, -4], 0, 1));
-                //cluster.push(new ParticleCluster(canvas.el, 1000, halfx, thirdy*2, 3, 0.8, NEF.tools.rgbaString(127, 127, 127, 0.10), [0.08, -0.08], [0, 0], -0.005));
+                cluster.push(new ParticleCluster(canvas.el, 1000, halfx, halfy, 3, 0.8, NEF.tools.rgbaString(127, 127, 127, 0.10), [0.08, -0.08], [0, 0], -0.005));
             
             // Lower the alpha number here for longer trails.
             canvas.setFill(

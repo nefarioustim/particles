@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+    <head>
+        <meta charset="utf-8">
+        <title>Particles</title>
+        <link rel="stylesheet" href="a/c/core.css" type="text/css">
+    </head>
+    <body>
+        <h1>3D Starfield</h1>
+        <canvas id="canvas" width="960" height="594"></canvas>
+        <ul>
+            <li><a href="index.html">Basic particle clusters</a></li>
+            <li><a href="starfield.html">Starfield</a></li>
+            <li><a href="gaseous.html">Gaseous particles</a></li>
+            <li><a href="starfield3d.html">Starfield 3D</a></li>
+            <li><a href="shape.html">Shape</a></li>
+        </ul>
+        <script type="text/javascript" src="a/j/tools.js"></script>
+        <script type="text/javascript" src="a/j/random.js"></script>
+        <script type="text/javascript" src="a/j/canvasdirector.js"></script>
+        <script type="text/javascript" src="a/j/particle3d.js"></script>
+        <script type="text/javascript">
+            var canvas = new CanvasDirector('canvas'),
+                halfx = canvas.width/2,
+                halfy = canvas.height/2,
+                rotateAmount = 0,
+                cluster = [],
+                drawLine = function(p1, p2) {
+                    var c = canvas.context;
+                    c.lineWidth = 2; 
+                    c.strokeStyle = NEF.tools.rgbaString(255, 255, 255, 0.25);
+                    c.beginPath();
+    				c.moveTo(p1.x2d, p1.y2d); 
+    				c.lineTo(p2.x2d, p2.y2d); 
+    				c.stroke();
+                };
+            
+            canvas.origin(halfx, halfy);
+            
+            // Lower the alpha number here for longer trails.
+            canvas.setFill(
+                NEF.tools.rgbaString(0, 0, 0, 1)
+            );
+            
+            for (var i = 0; i < 500; i++) {
+                cluster.push(
+                    new Particle3D(
+                        canvas.el,
+                        NEF.random.getRandomInt(-180, 180),
+                        NEF.random.getRandomInt(-160, 160),
+                        NEF.random.getRandomInt(-180, 180),
+                        2
+                    )
+                );
+            }
+            
+            document.addEventListener('mousedown', function(){
+                rotateAmount = 0.5;
+            }, false);
+            
+            canvas.run(function frame(){
+                var i, j;
+                
+                for (i in cluster) {
+                    cluster[i].rotate('Y', rotateAmount);
+                    cluster[i].render();
+                }
+            });
+        </script>
+    </body>
+</html>

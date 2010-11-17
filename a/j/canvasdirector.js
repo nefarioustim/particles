@@ -11,6 +11,8 @@ var CanvasDirector = function(id, refreshRate) {
             this.top = canvas.offsetTop;
             this.right = this.left + this.width;
             this.bottom = this.top + this.height;
+			this.offsetx = 0;
+			this.offsety = 0;
             this.refreshRate = refreshRate || 10;
             this.fill = NEF.tools.rgbaString(255, 255, 255, 1);
             
@@ -24,10 +26,16 @@ CanvasDirector.prototype = {
     setFill: function(rgbaString) {
         this.fill = rgbaString;
     },
+
+	origin: function(x, y) {
+		this.context.translate(x, y);
+		this.offsetx = -x;
+		this.offsety = -y;
+	},
     
     clear: function() {
         this.context.fillStyle = this.fill;
-        this.context.fillRect(0, 0, this.width, this.height);
+        this.context.fillRect(0 + this.offsetx, 0 + this.offsety, this.width, this.height);
     },
     
     run: function(frameCallback, initCallback) {
