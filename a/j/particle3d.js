@@ -16,11 +16,13 @@ var Particle3D = function(c, x, y, z, size, col, xVel, yVel, zVel) {
 };
 
 Particle3D.prototype = {
-    render: function(mode) {
-		var fov = 350,
+    render: function(fov, mode) {
+		var fov = (fov !== undefined) ? fov : 350,
 			scale = fov/(fov + this.z);
 			this.x2d = this.x * scale;
 			this.y2d = this.y * scale;
+		
+		if (scale < 0) return;
 			
         if (mode) {
             var old = this.ctx.globalCompositeOperation;

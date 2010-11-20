@@ -4,6 +4,9 @@ JavaScript Particle Playground
 Dicking about with particles for shits and giggles. This is very much a sandbox
 repo that I suspect I'll be playing with for a few days.
 
+This was inspired by [Seb Lee-Delisle](http://sebleedelisle.com/)'s talk at
+Full Frontal 2010.
+
 Current demo incorporates:
 
  *  Colour 2D particles with position, velocity, and weight.
@@ -18,6 +21,8 @@ To do
 -----
 
  *  Reintroduce mouse tracking(?)
+ *  Collision detection using getImageData on a preloaded image as clipping
+    map.
  
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/"><img alt="Creative Commons License" style="border:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/88x31.png" /></a>
 
